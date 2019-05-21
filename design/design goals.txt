@@ -1,0 +1,8 @@
+design goals
+============
+
+Ablity to change deployment technologies in a config file to swap out implementations to make migrating databases or webapp framework a configuration issue.
+
+Application function is visible from the domain structure, you should look at the top level directory structure and think "this is a todo aplication" not "this is a node webapp"
+
+Structure is flexible to change in the right areas, with each module in the system dependent on modules more stable than itself.
