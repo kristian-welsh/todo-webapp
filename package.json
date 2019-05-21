@@ -1,0 +1,30 @@
+{
+  "name": "todo-webapp",
+  "version": "1.0.0",
+  "description": "todo ====",
+  "main": "index.js",
+  "dependencies": {
+    "grunt": "^1.0.4"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "grunt-contrib-jshint": "^2.1.0",
+    "grunt-mocha": "^1.2.0",
+    "jshint": "^2.10.2",
+    "mocha": "^6.1.4"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kristian-welsh/todo-webapp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kristian-welsh/todo-webapp/issues"
+  },
+  "homepage": "https://github.com/kristian-welsh/todo-webapp#readme"
+}
