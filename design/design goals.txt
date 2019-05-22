@@ -6,3 +6,7 @@ Ablity to change deployment technologies in a config file to swap out implementa
 Application function is visible from the domain structure, you should look at the top level directory structure and think "this is a todo aplication" not "this is a node webapp"
 
 Structure is flexible to change in the right areas, with each module in the system dependent on modules more stable than itself.
+
+State in the system is kept to a bare minimum, the most important functionality shall be implemnted functionally.
+
+Conditionals are limited to performing dependancy injection following the dependancy inversion principle.
