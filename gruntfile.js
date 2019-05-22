@@ -9,7 +9,6 @@ module.exports = function(grunt) {
 			},
 			options: {
 				run: true,
-				growlOnSuccess: false,
 			},
 		},
 		jshint: {
