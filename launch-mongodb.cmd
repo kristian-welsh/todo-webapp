@@ -1,1 +1,1 @@
-@mongod --dbpath=./data
+start cmd /k @mongod --dbpath=./data
