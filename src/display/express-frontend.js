@@ -16,7 +16,10 @@ app.set('view engine', 'hbs');
 
 // serve requests
 app.get('/', (req, res) => {
-	res.render('index', {title: 'Index', message: 'Hello, world!'});
+	// in the future call applicaiton code based on req, then from
+	// response, build the view data in a viewmodel and pass here
+	var viewData = {title: 'Index', message: 'Hello, world!'};
+	res.render('index', viewData);
 });
 
 // start server

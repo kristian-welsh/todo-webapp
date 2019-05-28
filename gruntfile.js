@@ -15,7 +15,7 @@ module.exports = function(grunt) {
 		mochaTest: {
 			test: {
 				options: { },
-				src: ['tests/server/**/*.js'],
+				src: ['tests/**/*.js'],
 			},
 		},
 		jshint: {
@@ -31,17 +31,18 @@ module.exports = function(grunt) {
 			run_server: {
 				cmd: 'node',
 				args: [
-					'src/www/index.js',
+					'src/display/express-frontend.js',
 				],
 			},
 		},
 	});
 
-	grunt.loadNpmTasks('grunt-contrib-jshint'); // file cleanup
-	//grunt.loadNpmTasks('grunt-mocha');
-	grunt.loadNpmTasks('grunt-mocha-test'); // server side tests
-	grunt.loadNpmTasks('grunt-run'); // run cmd executables
+	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-mocha-test');
+	grunt.loadNpmTasks('grunt-run');
 
-	grunt.registerTask('default', ['jshint', 'mochaTest', 'run']);
+	grunt.registerTask('default', ['jshint', 'mochaTest']);
+	grunt.registerTask('test', ['jshint', 'mochaTest']);
+	grunt.registerTask('server', 'run');
 };
 

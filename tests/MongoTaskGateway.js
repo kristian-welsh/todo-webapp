@@ -2,7 +2,7 @@ var chai = require("chai");
 var sinon = require("sinon");
 var expect = chai.expect;
 
-var path = "../../src/server/storage/";
+var path = "../src/storage/";
 var MongoTaskGateway = require(path + "MongoTaskGateway");
 var MongoConnection = require(path + "MongoConnection");
 

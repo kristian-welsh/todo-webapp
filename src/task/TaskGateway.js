@@ -2,6 +2,7 @@
 class TaskGateway {
 	constructor() { }
 	store(task) { }
+	retrieveAll() { }
 }
 
 module.exports = TaskGateway; 
