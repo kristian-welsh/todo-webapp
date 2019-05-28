@@ -8,10 +8,9 @@ class MongoConnection {
 	}
 	// Returns the specified collection from the configured db.
 	// This object must now be disbanded after use.
-	// todo: current URL string parser is depreciated, pass option useNewUrlParser: true to MongoClient.connect
 	establish(collectionName = 'documents') {
 		this._clearClient();
-		return MongoClient.connect(dbUrl)
+		return MongoClient.connect(dbUrl, {useNewUrlParser: true})
 			.then(client => {
 				this.client = client;
 				return this.client.db(this.dbName).collection(collectionName);
