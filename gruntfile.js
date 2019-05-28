@@ -26,12 +26,22 @@ module.exports = function(grunt) {
 				esversion: 6,
 			},
 		},
+		run: {
+			options: { },
+			run_server: {
+				cmd: 'node',
+				args: [
+					'src/www/index.js',
+				],
+			},
+		},
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-jshint'); // file cleanup
 	//grunt.loadNpmTasks('grunt-mocha');
 	grunt.loadNpmTasks('grunt-mocha-test'); // server side tests
+	grunt.loadNpmTasks('grunt-run'); // run cmd executables
 
-	grunt.registerTask('default', ['jshint', 'mochaTest']);
+	grunt.registerTask('default', ['jshint', 'mochaTest', 'run']);
 };
 
