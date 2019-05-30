@@ -1,2 +1,12 @@
 <h1>{{ title }}</h1>
 <p>{{ message }}</p>
+<h3>Create a task</h3>
+<form action="/task/create" method="POST">
+	<input type="text" name="title" placeholder="task title here" />
+	<br/>
+	<input type="text" name="body" placeholder="task details here" />
+	<br/>
+	<input type="text" name="author" placeholder="my name" />
+	<br/>
+	<input type="submit" value="create" />
+</form>
