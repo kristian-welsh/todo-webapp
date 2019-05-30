@@ -4,9 +4,7 @@ class CreateTask {
 	}
 	execute(request) {
 		console.log("request recieved by CreateTask: " + request);
-		this.gateway.store(request);
-		// todo: returns status pending until store promise resolves, then update with successful
-		return {status: "successful"};
+		return this.gateway.store(request);
 	}
 }
 

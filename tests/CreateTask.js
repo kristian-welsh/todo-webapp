@@ -7,22 +7,6 @@ var TaskGateway = require(path + "TaskGateway");
 
 describe('CreateTaskUsecase', function(){
 	describe('#execute()', function(){
-		it('should accept valid task', function(){
-			// arrange
-			var gateway = new TaskGateway();
-			var feature = new CreateTask(gateway);
-			
-			// act
-			var request = {
-				title: "title",
-				body: "body",
-				author: "author",
-			};
-			var response = feature.execute(request);
-			
-			// assert
-			chai.assert.equal(response.status, "successful");
-		});
 		it('should persist tasks', function(){
 			// arrange
 			var expectedTask = {

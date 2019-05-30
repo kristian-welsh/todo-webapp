@@ -13,6 +13,8 @@ class Controller {
 	}
 	createTask(request) {
 		var requestModel = postTaskBodyToJson(request.body);
+		console.log("request model: ");
+		console.log(requestModel);
 		return this.taskCreator.execute(requestModel);
 	}
 	listTasks(request) {

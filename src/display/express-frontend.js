@@ -38,15 +38,13 @@ app.get('/', (req, res) => {
 });
 app.post('/task/create', (req, res) => {
 	var viewData = {title: 'Index', message: 'Hello, world!', tasks:[]};
-	controller.createTask(req.body);
-	res.redirect(303, '../list');
-});
-app.get('/list', (req, res) => {
-	var viewData = {title: 'Index', message: 'Hello, world!', tasks:[]};
-	controller.listTasks()
+	controller.createTask(req)
+	.then(() => controller.listTasks())
 	.then(tasks => {
+		console.log("QQQ");
+		console.log(tasks);
 		viewData.tasks = tasks;
-		res.render('list', viewData);
+		res.render('index', viewData);
 	});
 });
 
