@@ -30,6 +30,9 @@ app.set('view engine', 'hbs');
 // middleware setup
 // for parsing application/x-www-form-urlencoded to req.body
 app.use(express.urlencoded({ extended: true }));
+// for serving static content like css and images
+console.log("loading css from: " + __dirname + "/static");
+app.use(express.static(__dirname + '/static'));
 
 // serve requests
 app.get('/', (req, res) => {

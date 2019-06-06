@@ -1,0 +1,26 @@
+body {
+	background-color: rgba(235, 235, 235);
+}
+
+.card-columns {
+    column-count: 3;
+	column-gap: 0;
+}
+
+.card-columns .card {
+	margin: 20px;
+	width: 18rem;
+}
+
+#main {
+	min-height: 95vh;
+	padding: 30px;
+	background-color: rgba(250, 250, 250);
+}
+
+.footer {
+	width: 100%;
+	height: 5vh;
+	line-height: 5vh;
+	background-color: rgb(220, 220, 220);
+}
