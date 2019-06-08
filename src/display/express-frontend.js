@@ -31,26 +31,18 @@ app.set('view engine', 'hbs');
 // for parsing application/x-www-form-urlencoded to req.body
 app.use(express.urlencoded({ extended: true }));
 // for serving static content like css and images
-console.log("loading css from: " + __dirname + "/static");
 app.use(express.static(__dirname + '/static'));
 
 // serve requests
-app.get('/', (req, res) => {
-	var viewData = {title: 'Index', message: 'Hello, world!', tasks:[]};
+app.get('/', async (req, res) => {
+	var viewData = {title: 'Todo', tasks:[]};
+	viewData.tasks = await controller.listTasks();
 	res.render('index', viewData);
 });
-app.post('/task/create', (req, res) => {
-	var viewData = {title: 'Index', message: 'Hello, world!', tasks:[]};
-	controller.createTask(req)
-	.then(() => controller.listTasks())
-	.then(tasks => {
-		console.log("QQQ");
-		console.log(tasks);
-		viewData.tasks = tasks;
-		res.render('index', viewData);
-	});
+app.post('/task/create', async (req, res) => {
+	await controller.createTask(req);
+	res.redirect(303, '/');
 });
 
 // start server
 app.listen(port, () => console.log('Todo webapp running'));
-
