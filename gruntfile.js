@@ -20,10 +20,10 @@ module.exports = function(grunt) {
 		},
 		jshint: {
 			all: {
-				src: ['gruntfile.js', 'src/**/*.js', 'tests/**/*.js'],
+				src: ['gruntfile.js', 'src/*.js', 'src/**/*.js', 'tests/**/*.js'],
 			},
 			options: {
-				esversion: 6,
+				esversion: 8,
 			},
 		},
 		run: {
@@ -31,7 +31,7 @@ module.exports = function(grunt) {
 			run_server: {
 				cmd: 'node',
 				args: [
-					'src/display/express-frontend.js',
+					'src/application.js',
 				],
 			},
 		},
