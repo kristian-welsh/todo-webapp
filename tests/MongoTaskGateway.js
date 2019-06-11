@@ -15,7 +15,7 @@ function assertEqual(expected, actual) {
 
 describe('MongoTaskGateway', function(){
 	describe('#store(),retrieve()', function(){
-		it('should store and retrieve a task', function(done) {
+		it('should store and retrieve a task', async function() {
 			this.timeout(6000);
 			// arrange
 			var connection = new MongoConnection("test");
@@ -31,17 +31,17 @@ describe('MongoTaskGateway', function(){
 				body: "body",
 				author: "author"
 			}];
-
-			connection.drop()
+			await connection.drop();
+			
 			// act
-			.then(() => gateway.store(input))
-			.then(() => gateway.retrieveAll())
+			await gateway.store(input);
+			var actual = await gateway.retrieveAll();
+			
 			// assert
-			.then(actual => assertEqual(expected, actual))
+			assertEqual(expected, actual);
+				
 			// teardown & end test
-			.catch(err => done(err))
-			.finally(() => connection.drop())
-			.then(() => done());
+			await connection.drop();
 		});
 	});
 });
