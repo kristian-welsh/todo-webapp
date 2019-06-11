@@ -1,7 +1,7 @@
 var chai = require("chai");
 var sinon = require("sinon");
 
-var path = "../src/task/";
+var path = "../../src/task/";
 var CreateTask = require(path + "CreateTask");
 var TaskGateway = require(path + "TaskGateway");
 

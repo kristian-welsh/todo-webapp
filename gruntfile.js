@@ -13,10 +13,14 @@ module.exports = function(grunt) {
 		},
 		// Mocha for server side tests
 		mochaTest: {
-			test: {
+			quick: {
 				options: { },
-				src: ['tests/**/*.js'],
+				src: ['tests/unit/*.js'],
 			},
+			full: {
+				options: {},
+				src: ['tests/**/*.js'],
+			}
 		},
 		jshint: {
 			all: {
@@ -41,8 +45,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-mocha-test');
 	grunt.loadNpmTasks('grunt-run');
 
-	grunt.registerTask('default', ['jshint', 'mochaTest']);
-	grunt.registerTask('test', ['jshint', 'mochaTest']);
+	grunt.registerTask('default', ['jshint', 'mochaTest:quick']);
+	grunt.registerTask('test', ['jshint', 'mochaTest:full']);
 	grunt.registerTask('server', 'run');
 };
 
