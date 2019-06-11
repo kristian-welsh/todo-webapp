@@ -8,13 +8,11 @@ class MongoConnection {
 	}
 	// Returns the specified collection from the configured db.
 	// This object must now be disbanded after use.
-	establish(collectionName = 'documents') {
+	async establish(collectionName = 'documents') {
 		this._clearClient();
-		return MongoClient.connect(dbUrl, {useNewUrlParser: true})
-			.then(client => {
-				this.client = client;
-				return this.client.db(this.dbName).collection(collectionName);
-			});
+		this.client = await MongoClient.connect(dbUrl, {useNewUrlParser: true});
+		var database = this.client.db(this.dbName);
+		return database.collection(collectionName);
 	}
 	// Closes the connection to avoid network usage leaks
 	disband() {
