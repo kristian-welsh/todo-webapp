@@ -27,7 +27,7 @@ module.exports = function(grunt) {
 				src: ['gruntfile.js', 'src/*.js', 'src/**/*.js', 'tests/**/*.js'],
 			},
 			options: {
-				esversion: 8,
+				esversion: 9,
 			},
 		},
 		run: {

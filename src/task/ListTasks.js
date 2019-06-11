@@ -2,8 +2,8 @@ class ListTasks {
 	constructor(gateway) {
 		this.gateway = gateway;
 	}
-	execute() {
-		return this.gateway.retrieveAll();
+	async execute() {
+		return {tasks: await this.gateway.retrieveAll()};
 	}
 }
 

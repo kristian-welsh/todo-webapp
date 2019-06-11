@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const Presenter = require('./Presenter');
 
 class Router {
-	constructor(controller) {
+	constructor(controller, presenter) {
 		this.router = express.Router();
 
 		// import middleware
@@ -13,9 +14,9 @@ class Router {
 
 		//serve requests
 		this.router.get('/', async (req, res) => {
-			var viewData = {title: 'Todo', tasks:[]};
-			viewData.tasks = await controller.listTasks();
-			res.render('index', viewData);
+			var responseModel = await controller.listTasks();
+			var viewModel = presenter.createViewModel({title: 'Todo'}, responseModel);
+			res.render('index', viewModel);
 		});
 		this.router.post('/task/create', async (req, res) => {
 			await controller.createTask(req);

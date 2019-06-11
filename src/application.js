@@ -17,7 +17,8 @@ const createTask = new CreateTask(mongoTaskGateway);
 const listTasks = new ListTasks(mongoTaskGateway);
 
 const controller = new Controller(createTask, listTasks);
-const router = new Router(controller);
+const presenter = new Presenter();
+const router = new Router(controller, presenter);
 const server = new WebServer(router.router);
 
 // start server
