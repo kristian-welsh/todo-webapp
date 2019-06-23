@@ -6,6 +6,7 @@ const CreateTask = require('./task/CreateTask');
 const ListTasks = require('./task/ListTasks');
 
 const Controller = require('./display/Controller');
+const Presenter = require('./display/Presenter');
 const Router = require('./display/Router');
 const WebServer = require('./display/WebServer');
 
