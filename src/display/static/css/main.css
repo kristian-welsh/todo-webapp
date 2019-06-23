@@ -2,25 +2,25 @@ body {
 	background-color: rgba(235, 235, 235);
 }
 
-.card-columns {
-    column-count: 3;
-	column-gap: 0;
+.cards .card {
+	margin: 30px 50px 30px 50px;
+	width: auto;
 }
 
-.card-columns .card {
-	margin: 20px;
-	width: 18rem;
-}
-
-#main {
-	min-height: 95vh;
-	padding: 30px;
+#grid-container {
 	background-color: rgba(250, 250, 250);
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 10vh minmax(85vh,auto) 5vh;
 }
 
-.footer {
+header {
 	width: 100%;
-	height: 5vh;
-	line-height: 5vh;
+	text-align: center;
+	background-color: rgb(220, 220, 220);
+}
+
+footer {
+	width: 100%;
 	background-color: rgb(220, 220, 220);
 }
