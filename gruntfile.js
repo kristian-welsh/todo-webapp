@@ -32,10 +32,16 @@ module.exports = function(grunt) {
 		},
 		run: {
 			options: { },
-			run_server: {
+			server: {
 				cmd: 'node',
 				args: [
 					'src/application.js',
+				],
+			},
+			dropdb: {
+				cmd: 'node',
+				args: [
+					'src/droptasks.js',
 				],
 			},
 		},
@@ -47,6 +53,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('default', ['jshint', 'mochaTest:quick']);
 	grunt.registerTask('test', ['jshint', 'mochaTest:full']);
-	grunt.registerTask('server', 'run');
+	grunt.registerTask('server', 'run:server');
+	grunt.registerTask('drop', 'run:dropdb');
 };
 
