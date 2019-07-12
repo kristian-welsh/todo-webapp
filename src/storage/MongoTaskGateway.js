@@ -1,4 +1,5 @@
 const MongoConnection = require('./MongoConnection');
+const ObjectID = require('mongodb').ObjectID;
 
 class MongoTaskGateway {
 	constructor(connection) {
@@ -8,17 +9,22 @@ class MongoTaskGateway {
 	// then clauses attatched to the returned promise are executed after the data is stored and connection closed.
 	store(task) {
 		return this.connection.establish()
-		.then(data => data.insertOne(task))
-		.finally(() => this.connection.disband());
+		.then(data => data.insertOne(task))//todo: check successful in object returned from insertOne
+		.finally(() => this.connection.disband())
+		.then((report) => report.insertedId);
 	}
 	// returns a promise that will resolve with the results of the query
 	retrieveAll() {
 		return this.connection.establish()
 		.then(data => data.find({}).toArray())
-		.finally(results => {
-			this.connection.disband();
-			return results;
-		});
+		.finally(() => this.connection.disband());
+	}
+	// returns a promise that will resolve with the results of the query
+	// TODO: doesn't find anything for some reason, maybe look into ObjectID or if we're fetching the right id in store
+	retrieve(id) {
+		return this.connection.establish()
+		.then(data => data.findOne( {"_id": ObjectID(id)} ))
+		.finally(() => this.connection.disband());
 	}
 }
 

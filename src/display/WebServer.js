@@ -1,5 +1,6 @@
 const express = require('express');
 const hbs = require('express-handlebars');
+const bodyParser = require('body-parser');
 
 const port = 3000;
 
@@ -18,8 +19,8 @@ class WebServer {
 		this.app.set('view engine', 'hbs');
 
 		// middleware 
-		// parsing forms from application/x-www-form-urlencoded to req.body
-		this.app.use(express.urlencoded({ extended: true }));
+		// parsing json into req.body for rest requests
+		this.app.use(bodyParser.json());
 		// serving static content like css and images
 		this.app.use(express.static(__dirname + '/static'));
 		// routing

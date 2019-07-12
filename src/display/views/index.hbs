@@ -1,17 +1,17 @@
-<div class="task-container">
+<div id="task-container" class="task-container">
 	<!-- new task -->
 	<!-- https://fontawesome.com/icons/plus-square?style=regular -->
 	<div class="card">
 		<div class="task-body">
 			<h5 class="card-title">Create a task</h5>
-			<form action="/task/create" method="POST">
-				<input type="text" name="title" placeholder="task title here" />
+			<form action="#">
+				<input id="new-task-title" type="text" name="title" placeholder="task title here" />
 				<br/>
-				<input type="text" name="body" placeholder="task details here" />
+				<input id="new-task-body" type="text" name="body" placeholder="task details here" />
 				<br/>
-				<input type="text" name="author" placeholder="my name" />
+				<input id="new-task-author" type="text" name="author" placeholder="my name" />
 				<br/>
-				<input type="submit" value="create" />
+				<input type="button" value="create" onclick="createNewTask()"/>
 			</form>
 		</div>
 	</div>

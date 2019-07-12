@@ -4,6 +4,7 @@ const MongoTaskGateway = require('./storage/MongoTaskGateway');
 
 const CreateTask = require('./task/CreateTask');
 const ListTasks = require('./task/ListTasks');
+const ShowTask = require('./task/ShowTask');
 
 const Controller = require('./display/Controller');
 const Presenter = require('./display/Presenter');
@@ -16,8 +17,9 @@ const mongoTaskGateway = new MongoTaskGateway(mongoConnection);
 
 const createTask = new CreateTask(mongoTaskGateway);
 const listTasks = new ListTasks(mongoTaskGateway);
+const showTask = new ShowTask(mongoTaskGateway);
 
-const controller = new Controller(createTask, listTasks);
+const controller = new Controller(createTask, listTasks, showTask);
 const presenter = new Presenter();
 const router = new Router(controller, presenter);
 const server = new WebServer(router.router);

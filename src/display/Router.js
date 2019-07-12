@@ -18,9 +18,25 @@ class Router {
 			var viewModel = presenter.createViewModel({title: 'Todo'}, responseModel);
 			res.render('index', viewModel);
 		});
-		this.router.post('/task/create', async (req, res) => {
-			await controller.createTask(req);
-			res.redirect(303, '/');
+		
+		//rest
+		//creates a task and responds with apropriate status code and the new id
+		this.router.post('/api/task', async (req, res) => {
+			try {
+				var taskId = await controller.createTask(req);
+				console.log("taskId: " + taskId);
+				res.status(201).send({id: taskId});
+			} catch (e) {
+				res.body = e;
+				res.sendStatus(500);
+			}
+		});
+		
+		// respond with the html representation of a single task
+		this.router.get('/api/task/:id/html', async (req, res) => {
+			var task = await controller.showTask(req.params.id);
+			var viewModel = await presenter.presentTask(task);
+			res.status(201).send({html: viewModel});
 		});
 	}
 }
