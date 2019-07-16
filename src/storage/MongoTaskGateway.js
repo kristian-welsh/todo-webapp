@@ -20,11 +20,15 @@ class MongoTaskGateway {
 		.finally(() => this.connection.disband());
 	}
 	// returns a promise that will resolve with the results of the query
-	// TODO: doesn't find anything for some reason, maybe look into ObjectID or if we're fetching the right id in store
 	retrieve(id) {
 		return this.connection.establish()
 		.then(data => data.findOne( {"_id": ObjectID(id)} ))
 		.finally(() => this.connection.disband());
+	}
+	async delete(id) {
+		let collection = await this.connection.establish();
+		await collection.deleteOne( {"_id": ObjectID(id)} );
+		await this.connection.disband();
 	}
 }
 

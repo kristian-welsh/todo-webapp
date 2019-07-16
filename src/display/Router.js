@@ -8,7 +8,7 @@ class Router {
 
 		// import middleware
 		this.router.use((req, res, next) => {
-			console.log(`Serving ${req.url} to ${req.ip}`);
+			console.log(`Serving ${req.method} ${req.url} to ${req.ip}`);
 			next();
 		});
 
@@ -37,6 +37,15 @@ class Router {
 			var task = await controller.showTask(req.params.id);
 			var viewModel = await presenter.presentTask(task);
 			res.status(201).send({html: viewModel});
+		});
+
+		this.router.delete('/api/task/:id', async (req, res) => {
+			try {
+				await controller.deleteTask(req.params.id);
+				res.status(200).send({ });
+			} catch (e) {
+				res.status(500).send({e});
+			}
 		});
 	}
 }

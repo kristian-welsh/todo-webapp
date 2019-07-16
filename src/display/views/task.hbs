@@ -2,6 +2,7 @@
 <div class="card">
 	<div class="card-body">
 		<h5 class="card-title">{{ title }}</h5>
+		<h3 class="delete-X" on-click="deleteTask(this, '{{ this._id }}')">
 		<p class="card-text">{{ body }}</p>
 		<p class="card-text">Author: {{ author }}</p>
 	</div>

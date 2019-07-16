@@ -7,10 +7,11 @@ function postTaskBodyToJson(body) {
 }
 
 class Controller {
-	constructor(createTask, listTasks, showTask) {
+	constructor(createTask, listTasks, showTask, deleteTask) {
 		this.taskCreator = createTask;
 		this.taskLister = listTasks;
 		this.taskShower = showTask;
+		this.taskDeleter = deleteTask;
 	}
 	createTask(request) {
 		var requestModel = postTaskBodyToJson(request.body);
@@ -21,6 +22,9 @@ class Controller {
 	}	
 	showTask(id) {
 		return this.taskShower.execute(id);
+	}
+	deleteTask(id) {
+		this.taskDeleter.execute(id);
 	}
 }
 

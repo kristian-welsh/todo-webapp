@@ -30,18 +30,35 @@ async function getTaskHTML(taskid) {
 	return JSON.parse(response).html;
 }
 
+function deleteElement(element) {
+	element.parentElement.removeChild(element);
+}
+
+async function deleteTask(element, taskid) {
+	let taskCard = element.parentElement.parentElement;
+	deleteElement(taskCard);
+	let response = await ajaxPromise('DELETE', '/api/task/' + taskid, null);
+	response = JSON.parse(response);
+	console.log(response);
+}
+
+function wasSuccessful(status) {
+	return status >= 200 && status < 300;
+}
+
 function ajaxPromise(method, uri, body) {
+	if(body === null) body = {};
 	return new Promise((resolve, reject) => {
-		var request = openNewJsonRequest();
+		var request = openNewJsonRequest(method, uri);
 		request.onload = () => {
-			(request.status === 201) ? resolve(request.response) : reject(request.status);
+			wasSuccessful(request.status) ? resolve(request.response) : reject(request.status);
 		};
 		var jsonBody = JSON.stringify(body);
 		request.send(jsonBody);
 	});
 }
 
-function openNewJsonRequest() {
+function openNewJsonRequest(method, uri) {
 	var request = new XMLHttpRequest();
 	request.open(method, uri);
 	request.setRequestHeader("Content-Type", "application/json");
