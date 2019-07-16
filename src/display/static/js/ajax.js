@@ -14,7 +14,6 @@ async function createNewTask() {
 	// Store new task in db and fetch id
 	var newTaskID = await postTask(task);
 	
-	// todo: display creation complete status
 	var taskHTML = await getTaskHTML(newTaskID);
 	var taskContainer = document.getElementById('task-container');
 	taskContainer.innerHTML += taskHTML;
@@ -35,11 +34,14 @@ function deleteElement(element) {
 }
 
 async function deleteTask(element, taskid) {
+	// todo: display pending status
+	// ...
+	
+	await ajaxPromise('DELETE', '/api/task/' + taskid, null);
+
+	// delete ui element
 	let taskCard = element.parentElement.parentElement;
 	deleteElement(taskCard);
-	let response = await ajaxPromise('DELETE', '/api/task/' + taskid, null);
-	response = JSON.parse(response);
-	console.log(response);
 }
 
 function wasSuccessful(status) {
