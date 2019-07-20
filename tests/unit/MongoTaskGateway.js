@@ -9,6 +9,8 @@ var connection;
 var data;
 var findResults;
 
+let idCount = 1;
+
 function assert_connection_established_and_disbanded_correctly() {
 	chai.assert(connection.establish.calledOnce);
 	chai.assert(connection.disband.calledOnce);
@@ -29,15 +31,17 @@ describe('MongoTaskGateway', function(){
 			toArray: () => findResults
 		};
 		connection.establish.returns(Promise.resolve(data));
+		data.insertOne.returns({ insertedId: "testId" + idCount++ });
 	});
 	describe('#store()', function(){
 		it('should store a task', async function() {
 			var gateway = new MongoTaskGateway(connection);
 			var task = {title: "title", body: "body", author: "author"};
 			
-			await gateway.store(task);
+			let id = await gateway.store(task);
 			
 			sinon.assert.calledWith(data.insertOne, task);
+			chai.assert.equal("testId1", id);
 			assert_connection_established_and_disbanded_correctly();
 		});
 	});
