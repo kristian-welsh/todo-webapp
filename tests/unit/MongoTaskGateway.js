@@ -27,7 +27,7 @@ describe('MongoTaskGateway', function(){
 			find: sinon.stub(),
 		};
 		findResults = {
-			toArray: () => findResults
+			toArray: () => ['findResults array'],
 		};
 		connection.establish.returns(Promise.resolve(data));
 		data.insertOne.returns({ insertedId: "testId" });
@@ -64,7 +64,7 @@ describe('MongoTaskGateway', function(){
 		it('retrieves tasks', async function() {
 			data.find.returns(findResults);
 			let result = await gateway.retrieveAll();
-			chai.assert.equal(result, findResults);
+			expect(result).to.deep.equal(findResults.toArray());
 		});
 	});
 });
