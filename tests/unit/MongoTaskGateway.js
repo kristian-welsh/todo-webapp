@@ -1,9 +1,13 @@
 const chai = require("chai");
 const sinon = require("sinon");
+const ObjectID = require('mongodb').ObjectID;
 const expect = chai.expect;
 
 const path = "../../src/storage/";
 const MongoTaskGateway = require(path + "MongoTaskGateway");
+
+const taskid = '123456789ABC';//must be 12 digits for dependency on ObjectID
+const hashedTaskid = ObjectID(taskid);// object representing an id, use deep equal
 
 let connection;
 let data;
@@ -28,9 +32,6 @@ describe('MongoTaskGateway', function(){
 			findOne: sinon.stub(),
 		};
 		findResults = {
-			toArray: () => ['findResults array'],
-		};
-		findOneResults = {
 			toArray: () => ['findResults array'],
 		};
 		connection.establish.returns(Promise.resolve(data));
@@ -74,9 +75,14 @@ describe('MongoTaskGateway', function(){
 
 	describe('#retrieve(id)', function() {
 		it('connects and disconnects from the database cleanly', async function() {
-			data.findOne.returns(findOneResults);
-			await gateway.retrieve('123456789ABC');//must be 12 digits for dependency on ObjectID()
+			await gateway.retrieve(taskid);
 			assert_connection_established_and_disbanded_correctly();
+		});
+
+		it('finds the task using the specified id', async function() {
+			data.findOne.returnsArg(0);// make the database search return the search parameter
+			let result = await gateway.retrieve(taskid);
+			expect(result._id).to.deep.equal(hashedTaskid);
 		});
 	});
 });
