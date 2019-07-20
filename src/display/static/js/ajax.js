@@ -53,7 +53,10 @@ function ajaxPromise(method, uri, body) {
 	return new Promise((resolve, reject) => {
 		var request = openNewJsonRequest(method, uri);
 		request.onload = () => {
-			wasSuccessful(request.status) ? resolve(request.response) : reject(request.status);
+			if(wasSuccessful(request.status))
+				resolve(request.response);
+			else
+				reject(request.status);
 		};
 		var jsonBody = JSON.stringify(body);
 		request.send(jsonBody);
