@@ -1,4 +1,8 @@
-# ignore from https://github.com/github/gitignore/
+# ignore vim swap files
+*.swp
+
+
+# ignore file from https://github.com/github/gitignore/
 # Logs
 logs
 *.log
