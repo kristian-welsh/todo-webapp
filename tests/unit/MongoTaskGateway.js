@@ -25,8 +25,12 @@ describe('MongoTaskGateway', function(){
 		data = {
 			insertOne: sinon.stub(),
 			find: sinon.stub(),
+			findOne: sinon.stub(),
 		};
 		findResults = {
+			toArray: () => ['findResults array'],
+		};
+		findOneResults = {
 			toArray: () => ['findResults array'],
 		};
 		connection.establish.returns(Promise.resolve(data));
@@ -65,6 +69,14 @@ describe('MongoTaskGateway', function(){
 			data.find.returns(findResults);
 			let result = await gateway.retrieveAll();
 			expect(result).to.deep.equal(findResults.toArray());
+		});
+	});
+
+	describe('#retrieve(id)', function() {
+		it('connects and disconnects from the database cleanly', async function() {
+			data.findOne.returns(findOneResults);
+			await gateway.retrieve('123456789ABC');//must be 12 digits for dependency on ObjectID()
+			assert_connection_established_and_disbanded_correctly();
 		});
 	});
 });
