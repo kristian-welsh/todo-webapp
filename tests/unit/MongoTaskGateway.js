@@ -28,6 +28,7 @@ describe('MongoTaskGateway', function(){
 		};
 		data = {
 			insertOne: sinon.stub(),
+			deleteOne: sinon.stub(),
 			find: sinon.stub(),
 			findOne: sinon.stub(),
 		};
@@ -83,6 +84,18 @@ describe('MongoTaskGateway', function(){
 			data.findOne.returnsArg(0);// make the database search return the search parameter
 			let result = await gateway.retrieve(taskid);
 			expect(result._id).to.deep.equal(hashedTaskid);
+		});
+	});
+
+	describe('#delete(id)', function() {
+		it('connects and disconnects from the database cleanly', async function() {
+			await gateway.delete(taskid);
+			assert_connection_established_and_disbanded_correctly();
+		});
+
+		it('deletes a task', async function() {
+			await gateway.delete(taskid);
+			chai.assert(data.deleteOne.calledOnce);
 		});
 	});
 });
