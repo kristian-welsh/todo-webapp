@@ -2,8 +2,8 @@ class ShowTask {
 	constructor(gateway) {
 		this.gateway = gateway;
 	}
-	async execute(id) {
-		return await this.gateway.retrieve(id);
+	async execute(model) {
+		return { task: await this.gateway.retrieve(model.id) };
 	}
 }
 

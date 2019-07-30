@@ -2,8 +2,8 @@ class DeleteTask {
 	constructor(gateway) {
 		this.gateway = gateway;
 	}
-	execute(id) {
-		this.gateway.delete(id);
+	execute(request) {
+		this.gateway.delete(request.id);
 	}
 }
 

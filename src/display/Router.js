@@ -8,43 +8,59 @@ class Router {
 
 		// import middleware
 		this.router.use((req, res, next) => {
-			console.log(`Serving ${req.method} ${req.url} to ${req.ip}`);
+			console.log(`Router serving ${req.method} ${req.url} to ${req.ip}`);
 			next();
 		});
 
 		//serve requests
 		this.router.get('/', async (req, res) => {
-			var responseModel = await controller.listTasks();
-			var viewModel = presenter.createViewModel({title: 'Todo'}, responseModel);
-			res.render('index', viewModel);
+			try {
+				let requestModel = {...req.body, ...req.params};
+				var responseModel = await controller.handleRequest('list', requestModel);
+				var viewModel = presenter.createViewModel({title: 'Todo'}, responseModel);
+				res.render('index', viewModel);
+			} catch (e) {
+				console.log(e);
+				res.status(500).send({error: e});
+			}
 		});
-		
+
 		//rest
 		//creates a task and responds with apropriate status code and the new id
 		this.router.post('/api/task', async (req, res) => {
 			try {
-				var taskId = await controller.createTask(req);
-				console.log("taskId: " + taskId);
-				res.status(201).send({id: taskId});
+				let requestModel = {...req.body, ...req.params};
+				let responseModel = await controller.handleRequest('create', requestModel);
+				
+				res.status(201).send(responseModel);
 			} catch (e) {
-				res.body = e;
-				res.sendStatus(500);
+				console.log(e);
+				res.status(500).send({error: e});
 			}
 		});
-		
+
 		// respond with the html representation of a single task
 		this.router.get('/api/task/:id/html', async (req, res) => {
-			var task = await controller.showTask(req.params.id);
-			var viewModel = await presenter.presentTask(task);
-			res.status(201).send({html: viewModel});
+			try {
+				let requestModel = {...req.body, ...req.params};
+				let responseModel = await controller.handleRequest('show', requestModel);
+				let viewModel = { html: await presenter.presentTask(responseModel.task) };
+				res.status(201).send(viewModel);
+			} catch (e) {
+				console.log(e);
+				res.status(500).send({error: e});
+			}
 		});
 
 		this.router.delete('/api/task/:id', async (req, res) => {
 			try {
-				await controller.deleteTask(req.params.id);
+				let requestModel = {...req.body, ...req.params};
+				let responseModel = await controller.handleRequest('delete', requestModel);
+				
 				res.status(200).send({ });
 			} catch (e) {
-				res.status(500).send({e});
+				console.log(e);
+				res.status(500).send({error: e});
 			}
 		});
 	}

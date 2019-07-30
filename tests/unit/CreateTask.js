@@ -7,7 +7,7 @@ var TaskGateway = require(path + "TaskGateway");
 
 describe('CreateTaskUsecase', function(){
 	describe('#execute()', function(){
-		it('should persist tasks', function(){
+		it('should persist tasks', async function(){
 			// arrange
 			var expectedTask = {
 				title: "title",
@@ -15,9 +15,11 @@ describe('CreateTaskUsecase', function(){
 				author: "author"
 			};
 			var request = {
-				title: "title",
-				body: "body",
-				author: "author",
+				task: {
+					title: "title",
+					body: "body",
+					author: "author",
+				},
 			};
 			var gateway = new TaskGateway();
 			var feature = new CreateTask(gateway);
@@ -25,7 +27,7 @@ describe('CreateTaskUsecase', function(){
 			mock.expects('store').once().withArgs(expectedTask);
 			
 			// act
-			var response = feature.execute(request);
+			var response = await feature.execute(request);
 			
 			// assert
 			mock.restore();

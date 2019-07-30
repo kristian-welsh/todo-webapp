@@ -20,7 +20,7 @@ async function createNewTask() {
 }
 
 async function postTask(task) {
-	var response = await ajaxPromise('POST', '/api/task', task);
+	var response = await ajaxPromise('POST', '/api/task', { task: task });
 	return JSON.parse(response).id;
 }
 

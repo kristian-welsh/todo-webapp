@@ -6,25 +6,24 @@ function postTaskBodyToJson(body) {
 	};
 }
 
+
 class Controller {
+
 	constructor(createTask, listTasks, showTask, deleteTask) {
 		this.taskCreator = createTask;
 		this.taskLister = listTasks;
 		this.taskShower = showTask;
 		this.taskDeleter = deleteTask;
+		this.methodMapping = new Map([
+			['create', this.taskCreator],
+			['list', this.taskLister],
+			['show', this.taskShower],
+			['delete', this.taskDeleter]
+		]);
 	}
-	createTask(request) {
-		var requestModel = postTaskBodyToJson(request.body);
-		return this.taskCreator.execute(requestModel);
-	}
-	listTasks(request) {
-		return this.taskLister.execute();
-	}	
-	showTask(id) {
-		return this.taskShower.execute(id);
-	}
-	deleteTask(id) {
-		this.taskDeleter.execute(id);
+	handleRequest(method, request) {
+		let obj = this.methodMapping.get(method);
+		return obj.execute(request);
 	}
 }
 
