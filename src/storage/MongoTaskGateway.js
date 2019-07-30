@@ -11,7 +11,7 @@ class MongoTaskGateway {
 	// Returns a promise that will resolve with the results of the operation
 	async _dbOpp(operation) {
 		let collection = await this.connection.establish();
-		let result = operation(collection);
+		let result = await operation(collection);
 		await this.connection.disband();
 		return result;
 	}
