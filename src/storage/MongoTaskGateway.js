@@ -7,23 +7,26 @@ class MongoTaskGateway {
 	}
 	// perform storage in prommise so we can attach a callback that knows it stored correctly
 	// then clauses attatched to the returned promise are executed after the data is stored and connection closed.
-	store(task) {
-		return this.connection.establish()
-		.then(data => data.insertOne(task))//todo: check successful in object returned from insertOne
-		.finally(() => this.connection.disband())
-		.then((report) => report.insertedId);
+	// todo: check successful in object returned from insertOne
+	async store(task) {
+		let collection = await this.connection.establish();
+		let result = await collection.insertOne(task);
+		await this.connection.disband();
+		return result.insertedId;
 	}
 	// returns a promise that will resolve with the results of the query
-	retrieveAll() {
-		return this.connection.establish()
-		.then(data => data.find({}).toArray())
-		.finally(() => this.connection.disband());
+	async retrieveAll() {
+		let collection = await this.connection.establish();
+		let result = await collection.find({}).toArray();
+		await this.connection.disband();
+		return result;
 	}
 	// returns a promise that will resolve with the results of the query
-	retrieve(id) {
-		return this.connection.establish()
-		.then(data => data.findOne( {"_id": ObjectID(id)} ))
-		.finally(() => this.connection.disband());
+	async retrieve(id) {
+		let collection = await this.connection.establish();
+		let result = await collection.findOne( {"_id": ObjectID(id)} );
+		await this.connection.disband();
+		return result;
 	}
 	async delete(id) {
 		let collection = await this.connection.establish();
