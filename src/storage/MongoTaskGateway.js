@@ -1,37 +1,32 @@
 const MongoConnection = require('./MongoConnection');
 const ObjectID = require('mongodb').ObjectID;
 
+// todo: check for operation successes based on db report, throw promise errors as appropriate
 class MongoTaskGateway {
 	constructor(connection) {
 		this.connection = connection;
 	}
-	// perform storage in prommise so we can attach a callback that knows it stored correctly
-	// then clauses attatched to the returned promise are executed after the data is stored and connection closed.
-	// todo: check successful in object returned from insertOne
-	async store(task) {
+	
+	// Wraps db code in a connection to a database, passing the data collection.
+	// Returns a promise that will resolve with the results of the operation
+	async _dbOpp(operation) {
 		let collection = await this.connection.establish();
-		let result = await collection.insertOne(task);
-		await this.connection.disband();
-		return result.insertedId;
-	}
-	// returns a promise that will resolve with the results of the query
-	async retrieveAll() {
-		let collection = await this.connection.establish();
-		let result = await collection.find({}).toArray();
+		let result = operation(collection);
 		await this.connection.disband();
 		return result;
 	}
-	// returns a promise that will resolve with the results of the query
-	async retrieve(id) {
-		let collection = await this.connection.establish();
-		let result = await collection.findOne( {"_id": ObjectID(id)} );
-		await this.connection.disband();
-		return result;
+	
+	store(task) {
+		return this._dbOpp(async data => (await data.insertOne(task)).insertedId);
 	}
-	async delete(id) {
-		let collection = await this.connection.establish();
-		await collection.deleteOne( {"_id": ObjectID(id)} );
-		await this.connection.disband();
+	retrieveAll() {
+		return this._dbOpp(async data => (await data.find( { } )).toArray());
+	}
+	retrieve(id) {
+		return this._dbOpp(async data => await data.findOne( {"_id": ObjectID(id)} ));
+	}
+	delete(id) {
+		return this._dbOpp(async data => await data.deleteOne( {"_id": ObjectID(id)} ));
 	}
 }
 
