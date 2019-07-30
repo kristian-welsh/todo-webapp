@@ -20,7 +20,12 @@ function assert_connection_established_and_disbanded_correctly() {
 	chai.assert(connection.disband.calledAfter(connection.establish));
 }
 
-describe('MongoTaskGateway', function(){
+function assert_called_once_with_equal_arg(spy, arg) {
+	expect(spy.calledOnce);
+	expect(spy.firstCall.args[0]).to.deep.equal(arg);
+}
+
+describe('MongoTaskGateway', () => {
 	beforeEach(() => {
 		connection = {
 			establish: sinon.stub(),
@@ -28,9 +33,9 @@ describe('MongoTaskGateway', function(){
 		};
 		data = {
 			insertOne: sinon.stub(),
-			deleteOne: sinon.stub(),
 			find: sinon.stub(),
 			findOne: sinon.stub(),
+			deleteOne: sinon.spy(),
 		};
 		findResults = {
 			toArray: () => ['findResults array'],
@@ -40,62 +45,61 @@ describe('MongoTaskGateway', function(){
 		gateway = new MongoTaskGateway(connection);
 	});
 
-	describe('#store()', function(){
-		it('connects and disconnects from the database cleanly', async function() {
+	describe('#store()', () =>{
+		it('connects and disconnects from the database cleanly', async () => {
 			let task = {title: "title", body: "body", author: "author"};
 			await gateway.store(task);
 			assert_connection_established_and_disbanded_correctly();
 		});
 
-		it('stores a task', async function() {
+		it('stores a task', async () => {
 			let task = {title: "title", body: "body", author: "author"};
 			await gateway.store(task);
 			sinon.assert.calledWith(data.insertOne, task);
 		});
 
-		it('returns the tasks id', async function() {
+		it('returns the tasks id', async () => {
 			let task = {title: "title", body: "body", author: "author"};
 			let id = await gateway.store(task);
 			chai.assert.equal("testId", id);
 		});
 	});
 
-	describe('#retrieveAll()', function(){
-		it('connects and disconnects from the database cleanly', async function() {
+	describe('#retrieveAll()', () =>{
+		it('connects and disconnects from the database cleanly', async () => {
 			data.find.returns(findResults);
 			await gateway.retrieveAll();
 			assert_connection_established_and_disbanded_correctly();
 		});
 
-		it('retrieves tasks', async function() {
+		it('retrieves tasks', async () => {
 			data.find.returns(findResults);
 			let result = await gateway.retrieveAll();
 			expect(result).to.deep.equal(findResults.toArray());
 		});
 	});
 
-	describe('#retrieve(id)', function() {
-		it('connects and disconnects from the database cleanly', async function() {
+	describe('#retrieve(id)', () => {
+		it('connects and disconnects from the database cleanly', async () => {
 			await gateway.retrieve(taskid);
 			assert_connection_established_and_disbanded_correctly();
 		});
 
-		it('finds the task using the specified id', async function() {
-			data.findOne.returnsArg(0);// make the database search return the search parameter
-			let result = await gateway.retrieve(taskid);
-			expect(result._id).to.deep.equal(hashedTaskid);
+		it('finds the task using the specified id', async () => {
+			await gateway.retrieve(taskid);
+			assert_called_once_with_equal_arg(data.findOne, { "_id": hashedTaskid });
 		});
 	});
 
-	describe('#delete(id)', function() {
-		it('connects and disconnects from the database cleanly', async function() {
+	describe('#delete(id)', () => {
+		it('connects and disconnects from the database cleanly', async () => {
 			await gateway.delete(taskid);
 			assert_connection_established_and_disbanded_correctly();
 		});
 
-		it('deletes a task', async function() {
+		it('deletes a task', async () => {
 			await gateway.delete(taskid);
-			chai.assert(data.deleteOne.calledOnce);
+			assert_called_once_with_equal_arg(data.deleteOne, { "_id": hashedTaskid });
 		});
 	});
 });
